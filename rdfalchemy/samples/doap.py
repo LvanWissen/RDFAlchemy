@@ -40,14 +40,14 @@ mapper(Project, Release, Person)
 
 def show_project(p):
     print("\n============================")
-    print("Name is %s" % p.name)
-    print("  created on %s" % p.created)
+    print(("Name is %s" % p.name))
+    print(("  created on %s" % p.created))
     # because of `mapper()`, release below will be an instance of Release
     # so we can use dot notation on it
     for release in p.releases:
-        print("  %s released on %s" % (release.name, release.created))
+        print(("  %s released on %s" % (release.name, release.created)))
         for f in release.file_releases:
-            print("    with file %s" % f.resUri)  # or f.n3()
+            print(("    with file %s" % f.resUri))  # or f.n3()
 
 
 if __name__ == '__main__':

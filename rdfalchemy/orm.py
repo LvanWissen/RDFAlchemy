@@ -36,7 +36,7 @@ def mapper(*classes):
         classes = allsub(rdfSubject)
     class_dict = dict([(str(cl.rdf_type), cl) for cl in classes])
     for cl in classes:  # for each class
-        for v in cl.__dict__.values():  # for each desciptor
+        for v in list(cl.__dict__.values()):  # for each desciptor
             # if its a descriptor with a range
             if isinstance(v, rdfAbstract) and v.range_type:
                 try:

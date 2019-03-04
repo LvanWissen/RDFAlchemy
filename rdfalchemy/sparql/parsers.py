@@ -1,6 +1,5 @@
 from rdflib import URIRef, Literal, BNode
-
-from urllib2 import urlopen, Request  # , HTTPError
+from urllib.request import urlopen, Request  # , HTTPError
 from struct import unpack
 
 from rdfalchemy.exceptions import (
@@ -87,7 +86,7 @@ class _JSONSPARQLHandler(_SPARQLHandler):
         var_names = ret['head']['vars']
         bindings = ret['results']['bindings']
         for bdg in bindings:
-            for var, val in bdg.items():
+            for var, val in list(bdg.items()):
                 type = val['type']
                 if type == 'uri':
                     bdg[var] = URIRef(val['value'])
@@ -181,7 +180,7 @@ class _BRTRSPARQLHandler(_SPARQLHandler):
             raise ParseError("First 4 bytes in should be BRTR")
         self.ver = self.readint()  # ver of protocol
         self.ncols = self.readint()
-        self.keys = tuple(self.readstr() for x in range(self.ncols))
+        self.keys = tuple(self.readstr() for x in list(range(self.ncols)))
         self.values = [None, ] * self.ncols
         self.ns = {}
         while True:

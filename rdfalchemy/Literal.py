@@ -16,7 +16,7 @@ import logging
 
 __all__ = ['Literal']
 
-XSD = Namespace(u'http://www.w3.org/2001/XMLSchema#')
+XSD = Namespace('http://www.w3.org/2001/XMLSchema#')
 
 ###############################################################################
 # Let's fix the logging.  This seems like a lot of work...
@@ -37,12 +37,12 @@ if not _log.handlers:
 ###############################################################################
 ## Default behavior returns untyped literals as literals
 ## this brings untyped literals back as unicode strings
-bindLiteral(None, unicode)
+bindLiteral(None, str)
 
 ###############################################################################
 ## Default behavior returns string literals as literals
 ## this brings  string literals back as unicode strings
-bindLiteral(XSD.string, unicode)
+bindLiteral(XSD.string, str)
 
 ###############################################################################
 ## Let's make toPython return a datetime if the literal has fractional seconds
@@ -81,7 +81,7 @@ $""", re.VERBOSE)
 
 def _strToDateTime(s):
         """ parse a string and return a datetime object. """
-        assert isinstance(s, basestring)
+        assert isinstance(s, str)
         r = date_parser.search(s)
         try:
             a = r.groupdict('0')

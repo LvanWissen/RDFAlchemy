@@ -41,7 +41,7 @@ log.setLevel(logging.DEBUG)
 
 ## list Companies
 for c in Company.ClassInstances():
-    print("%s has an SEC symbol of %s" % (c.companyName, c.cik))
+    print(("%s has an SEC symbol of %s" % (c.companyName, c.cik)))
 print('')
 
 c = Company.get_by(symbol='IBM')
@@ -49,9 +49,9 @@ c = Company.get_by(symbol='IBM')
 ## Add a descriptor on the fly
 Company.stockDescription = rdfSingle(OV.stockDescription, 'stockDescription')
 
-print("%s: %s" % (c.companyName, c.stockDescription))
+print(("%s: %s" % (c.companyName, c.stockDescription)))
 print(" same as")
-print("%s: %s" % (c[OV.companyName], c[OV.stockDescription]))
+print(("%s: %s" % (c[OV.companyName], c[OV.stockDescription])))
 
 print("## CHECK to see if multiple reads cause database reads")
 print("   you should see no non-blank lines between here\n")

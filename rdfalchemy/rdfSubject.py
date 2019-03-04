@@ -66,7 +66,7 @@ class rdfSubject(object):
             self.resUri = resUri.resUri
             self.db = resUri.db
 
-        elif isinstance(resUri, (str, unicode)):   # create one from a <uri> or
+        elif isinstance(resUri, str):   # create one from a <uri> or
             if resUri[0] == "<" and resUri[-1] == ">":  # _:bnode string
                 self.resUri = URIRef(resUri[1:-1])
             elif resUri.startswith("_:"):
@@ -122,7 +122,7 @@ class rdfSubject(object):
             raise ValueError(
                 "get_by wanted exactly 1 but got  %i args\n" +
                 "Maybe you wanted filter_by" % (len(kwargs)))
-        key, value = kwargs.items()[0]
+        key, value = list(kwargs.items())[0]
         if isinstance(value, (URIRef, BNode, Literal)):
             o = value
         else:
@@ -146,7 +146,7 @@ class rdfSubject(object):
         Order helps, the first keyword should be the most restrictive
         """
         filters = []
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             pred = cls._getdescriptor(key).pred
             # try to make the value be OK for the triple query as an object
             if isinstance(value, Identifier):
@@ -164,7 +164,7 @@ class rdfSubject(object):
             for pred, obj in filters[1:]:
                 log.debug("Checking %s, %s" % (pred, obj))
                 try:
-                    cls.db.triples((sub, pred, obj)).next()
+                    next(cls.db.triples((sub, pred, obj)))
                 except:
                     log.warn("No %s" % sub)
                     break
@@ -232,7 +232,7 @@ class rdfSubject(object):
                set self.key = value
 
         """
-        for key, value in kv.items():
+        for key, value in list(kv.items()):
             descriptor = self.__class__._getdescriptor(key)
             descriptor.__set__(self, value)
 
@@ -328,6 +328,6 @@ class rdfSubject(object):
         returning all predicate object pairs with qnames"""
         db = db or self.db
         for p, o in db.predicate_objects(self.resUri):
-            print "%20s = %s" % (db.qname(p), str(o))
-        print " "
+            print(f"{db.qname(p)} = {str(o)}")
+        print()
 

@@ -24,12 +24,12 @@ try:
 except:
     from six import PY3
 from rdflib.term import Identifier
-from descriptors import (
+from .descriptors import (
     rdfSingle,
     rdfMultiple,
     owlTransitive
 )
-from orm import mapper, allsub
+from .orm import mapper, allsub
 
 import logging
 log = logging.getLogger(__name__)
@@ -67,7 +67,7 @@ class rdfsSubject(rdfSubject, Identifier):
             obj = type(resUri.resUri).__new__(cls, resUri.resUri)
             obj._nodetype = type(resUri.resUri)
         # create one from a <uri> or _:bnode string
-        elif isinstance(resUri, (str, unicode)):
+        elif isinstance(resUri, str):
             if resUri[0] == "<" and resUri[-1] == ">":
                 obj = URIRef.__new__(cls, resUri[1:-1])
                 obj._nodetype = URIRef
