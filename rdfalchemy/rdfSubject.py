@@ -31,7 +31,7 @@ re_ns_n = re.compile('(.*[/#])(.*)')
 #
 
 
-class rdfSubject(object):
+class rdfSubject:
     db = ConjunctiveGraph()
     """Default graph for access to instances of this type"""
     rdf_type = None
@@ -53,14 +53,20 @@ class rdfSubject(object):
         if not resUri:  # create a bnode
             self.resUri = BNode()
             if self.rdf_type:
-                self.db.add((self.resUri, RDF.type, self.rdf_type))
+                if type(self.rdf_type) == tuple: # allow for multiple types
+                    for rdf_type in self.rdf_type:
+                        self.db.add((self.resUri, RDF.type, rdf_type))
+                else:
+                    self.db.add((self.resUri, RDF.type, self.rdf_type))
 
         elif isinstance(resUri, (BNode, URIRef)):  # use the identifier passed
             self.resUri = resUri
-            if self.rdf_type \
-                and not list(self.db.triples(
-                    (self.resUri, RDF.type, self.rdf_type))):
-                self.db.add((self.resUri, RDF.type, self.rdf_type))
+            if self.rdf_type and not list(self.db.triples((self.resUri, RDF.type, self.rdf_type))):
+                if type(self.rdf_type) == tuple: # allow for multiple types
+                    for rdf_type in self.rdf_type:
+                        self.db.add((self.resUri, RDF.type, rdf_type))
+                else:
+                    self.db.add((self.resUri, RDF.type, self.rdf_type))
 
         elif isinstance(resUri, rdfSubject):  # use the resUri of the subject
             self.resUri = resUri.resUri
@@ -73,7 +79,11 @@ class rdfSubject(object):
                 self.resUri = BNode(resUri[2:])
 
             if self.rdf_type:
-                self.db.add((self.resUri, RDF.type, self.rdf_type))
+                if type(self.rdf_type) == tuple: # allow for multiple types
+                    for rdf_type in self.rdf_type:
+                        self.db.add((self.resUri, RDF.type, rdf_type))
+                else:
+                    self.db.add((self.resUri, RDF.type, self.rdf_type))
 
         else:
             raise AttributeError("cannot construct rdfSubject from %s" % (
@@ -195,7 +205,7 @@ class rdfSubject(object):
         if other is None:
             return False
         else:
-            return cmp(self.n3(), other.n3())
+            return ((self.n3() > other.n3()) - (self.n3() < other.n3()))
 
     def __repr__(self):
         return """%s('%s')""" % (

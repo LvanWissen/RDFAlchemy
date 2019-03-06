@@ -19,10 +19,6 @@ from rdfalchemy import (
     BNode,
     URIRef
 )
-try:
-    from rdflib.py3compat import PY3
-except:
-    from six import PY3
 from rdflib.term import Identifier
 from .descriptors import (
     rdfSingle,
@@ -109,16 +105,18 @@ class rdfsSubject(rdfSubject, Identifier):
 
     def __init__(self, resUri=None, **kwargs):
         if not self[RDF.type] and self.rdf_type:
-            self.db.add((self.resUri, RDF.type, self.rdf_type))
+            if type(self.rdf_type) == tuple: # allow for multiple types
+                for rdf_type in self.rdf_type:
+                    self.db.add((self.resUri, RDF.type, rdf_type))
+            else:
+                self.db.add((self.resUri, RDF.type, self.rdf_type))
+            
         if kwargs:
             self._set_with_dict(kwargs)
 
     @property
     def resUri(self):
-        if PY3:
-            return self._nodetype(self)
-        else:
-            return self._nodetype(str(self))
+        return self._nodetype(self)
 
     def _splitname(self):
         return re.match(r'(.*[/#])(.*)', self.resUri).groups()
