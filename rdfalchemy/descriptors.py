@@ -75,8 +75,8 @@ def getList(sub, pred=None, db=None):
 
 def value2object(value):
     """
-    Suitable for a triple takes a value and returns a Literal, URIRef or BNode
-    suitable for a triple"""
+    Suitable for a triple takes a value and returns a Literal, URIRef or BNode suitable for a triple
+    """
     if isinstance(value, rdfSubject):
         return value.resUri
     elif isinstance(value, Identifier):
@@ -92,7 +92,7 @@ def value2object(value):
 #
 
 
-class rdfAbstract(object):
+class rdfAbstract:
 
     """Abstract base class for descriptors
     Descriptors are to map class instance variables to predicates

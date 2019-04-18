@@ -2,7 +2,7 @@
 """
 rdfsSubject.py
 
-rdfsSubject is similar to rdfsSubject but includes more
+rdfsSubject is similar to rdfSubject but includes more
 processing and *magic* based on an `RDF Schema`__
 
 __ ::http://www.w3.org/TR/rdf-schema/

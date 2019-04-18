@@ -67,6 +67,7 @@ class rdfSubject:
                         self.db.add((self.resUri, RDF.type, rdf_type))
                 else:
                     self.db.add((self.resUri, RDF.type, self.rdf_type))
+            
 
         elif isinstance(resUri, rdfSubject):  # use the resUri of the subject
             self.resUri = resUri.resUri

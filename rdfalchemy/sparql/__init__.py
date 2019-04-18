@@ -24,7 +24,7 @@ __all__ = ["SPARQLGraph"]
 log = logging.getLogger(__name__)
 
 
-class DumpSink(object):
+class DumpSink:
 
     def __init__(self):
         self.length = 0
@@ -37,7 +37,7 @@ class DumpSink(object):
         return self._triple
 
 
-class SPARQLGraph(object):
+class SPARQLGraph:
 
     """
     Provides (some) RDFLib API via http to a SPARQL endpoint.

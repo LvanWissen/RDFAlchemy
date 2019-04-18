@@ -43,7 +43,7 @@ except ImportError:
 log.debug('Using ElementTree: %s' % ET)
 
 
-class _SPARQLHandler(object):
+class _SPARQLHandler:
 
     """
     Abstract base class for parsing the response stream of a sparql query
